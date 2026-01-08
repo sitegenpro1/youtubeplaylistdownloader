@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YouTube Playlist Downloader - Free Batch Video Downloader 2024</title>
+    <meta name="description" content="Download entire YouTube playlists instantly for free. No registration, unlimited batch downloads, high speed and reliable.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .custom-scrollbar::-webkit-scrollbar { width: 6px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #3b82f6; border-radius: 10px; }
+    </style>
+</head>
+<body class="bg-white text-slate-900 overflow-x-hidden">
+    <!-- Navigation -->
+    <header class="sticky top-0 z-50 w-full border-b bg-white/80 backdrop-blur-md">
+        <div class="container max-w-7xl mx-auto flex h-16 items-center justify-between px-4 sm:px-6">
+            <a href="index.html" class="flex items-center gap-2 font-extrabold text-2xl text-blue-600">
+                <i data-lucide="download" class="w-8 h-8"></i>
+                <span>YTPlaylist</span>
+            </a>
+            
+            <nav class="hidden md:flex items-center gap-8 text-sm font-semibold">
+                <a href="index.html" class="text-blue-600">Home</a>
+                <a href="#how-to-download" class="text-slate-600 hover:text-blue-600 transition-colors">How to Use</a>
+                <a href="#faq" class="text-slate-600 hover:text-blue-600 transition-colors">FAQ</a>
+                <a href="#about" class="text-slate-600 hover:text-blue-600 transition-colors">About</a>
+                <a href="#contact" class="bg-blue-600 text-white px-5 py-2 rounded-lg hover:bg-blue-700 transition-all">Support</a>
+            </nav>
+
+            <button class="md:hidden p-2 text-slate-600" id="menuToggle">
+                <i data-lucide="menu" class="w-6 h-6"></i>
+            </button>
+        </div>
+        <!-- Mobile Nav -->
+        <div id="navLinksMobile" class="hidden flex-col absolute top-16 left-0 w-full bg-white border-b md:hidden p-6 gap-4 shadow-xl">
+            <a href="index.html" class="text-lg font-bold text-blue-600">Home</a>
+            <a href="#how-to-download" class="text-lg font-medium text-slate-600">How to Use</a>
+            <a href="#faq" class="text-lg font-medium text-slate-600">FAQ</a>
+            <a href="#about" class="text-lg font-medium text-slate-600">About</a>
+            <a href="#contact" class="bg-blue-600 text-white text-center py-3 rounded-xl font-bold">Support</a>
+        </div>
+    </header>
+
+    <main>
+        <!-- Hero Section -->
+        <section class="relative bg-slate-950 py-24 lg:py-40 text-white">
+            <div class="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(59,130,246,0.2),transparent)]"></div>
+            <div class="container max-w-5xl mx-auto px-4 relative z-10 text-center">
+                <h1 class="text-4xl sm:text-6xl lg:text-8xl font-black tracking-tight mb-8 leading-tight bg-clip-text text-transparent bg-gradient-to-r from-blue-400 via-blue-100 to-white">
+                    The Ultimate YouTube <br> Playlist Downloader
+                </h1>
+                <p class="text-lg sm:text-2xl text-slate-400 max-w-3xl mx-auto mb-16 px-4">
+                    Batch download entire YouTube playlists in seconds. No limits, no software to install, 100% free and secure.
+                </p>
+
+                <!-- Tool Card -->
+                <div class="glass-card max-w-3xl mx-auto p-4 sm:p-8 rounded-[2rem] shadow-2xl">
+                    <div class="flex flex-col sm:flex-row gap-4">
+                        <input type="text" id="playlistUrl" placeholder="Paste YouTube Playlist URL..." class="flex-1 bg-slate-900 border border-slate-700 rounded-2xl px-6 py-4 text-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all text-white">
+                        <button id="extractBtn" class="bg-blue-600 hover:bg-blue-500 text-white rounded-2xl px-10 py-4 text-xl font-bold transition-all transform hover:scale-105 active:scale-95 shadow-lg shadow-blue-600/30">
+                            Start Now
+                        </button>
+                    </div>
+                    <div class="flex flex-wrap justify-center gap-6 mt-8 text-xs font-bold text-slate-500 uppercase tracking-widest">
+                        <span class="flex items-center gap-2"><i data-lucide="shield" class="w-4 h-4"></i> Secure</span>
+                        <span class="flex items-center gap-2"><i data-lucide="zap" class="w-4 h-4"></i> Fast</span>
+                        <span class="flex items-center gap-2"><i data-lucide="check-circle" class="w-4 h-4"></i> 4K Quality</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Results Section -->
+        <section id="resultsSection" class="hidden container max-w-5xl mx-auto px-4 -mt-16 relative z-20 mb-32">
+            <div class="bg-white border border-slate-200 rounded-[2.5rem] shadow-2xl overflow-hidden">
+                <div class="bg-slate-50 border-b p-8 sm:p-12">
+                    <div class="flex flex-col md:flex-row md:items-center justify-between gap-8">
+                        <div class="text-left">
+                            <h2 id="playlistTitle" class="text-3xl font-black mb-2 text-slate-900"></h2>
+                            <p class="flex items-center gap-2 text-slate-500 font-medium">
+                                <i data-lucide="play" class="w-5 h-5 text-blue-600"></i> <span id="videoCount">0</span> Videos Found
+                            </p>
+                        </div>
+                        <div id="downloadControls">
+                            <button id="downloadAllBtn" class="bg-blue-600 hover:bg-blue-500 text-white px-8 py-4 rounded-2xl font-black flex items-center gap-3 transition-all">
+                                <i data-lucide="download"></i> Download Entire Playlist
+                            </button>
+                        </div>
+                        <div id="progressDisplay" class="hidden flex-1 md:max-w-xs text-right">
+                            <p id="progressText" class="text-sm font-black text-blue-600 mb-2 uppercase tracking-tighter italic"></p>
+                            <div class="w-full bg-slate-200 h-4 rounded-full overflow-hidden">
+                                <div id="overallProgressBar" class="bg-blue-600 h-full w-0 transition-all duration-300"></div>
+                            </div>
+                        </div>
+                        <div id="completionDisplay" class="hidden items-center gap-4 text-green-600 font-black text-2xl animate-bounce">
+                            <i data-lucide="check-circle" class="w-8 h-8"></i> Completed!
+                        </div>
+                    </div>
+                </div>
+                <div id="videoList" class="divide-y divide-slate-100 max-h-[600px] overflow-y-auto custom-scrollbar">
+                    <!-- Videos injected -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Features -->
+        <section class="py-24 bg-white">
+            <div class="container max-w-7xl mx-auto px-4">
+                <div class="text-center mb-20">
+                    <h2 class="text-4xl sm:text-5xl font-black mb-6">Built for Creators</h2>
+                    <p class="text-slate-500 text-xl max-w-2xl mx-auto">The world's most reliable batch downloader optimized for speed.</p>
+                </div>
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <div class="p-10 border border-slate-100 rounded-3xl hover:shadow-2xl transition-all group">
+                        <div class="w-16 h-16 bg-blue-50 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-blue-600 group-hover:text-white transition-colors">
+                            <i data-lucide="zap" class="w-8 h-8 text-blue-600"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold mb-3">Turbo Speed</h3>
+                        <p class="text-slate-500 leading-relaxed">Parallel downloading ensures your playlists are saved in record time.</p>
+                    </div>
+                    <div class="p-10 border border-slate-100 rounded-3xl hover:shadow-2xl transition-all group">
+                        <div class="w-16 h-16 bg-blue-50 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-blue-600 group-hover:text-white transition-colors">
+                            <i data-lucide="shield" class="w-8 h-8 text-blue-600"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold mb-3">Encrypted</h3>
+                        <p class="text-slate-500 leading-relaxed">Your data never touches our servers. Pure browser-based privacy.</p>
+                    </div>
+                    <div class="p-10 border border-slate-100 rounded-3xl hover:shadow-2xl transition-all group">
+                        <div class="w-16 h-16 bg-blue-50 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-blue-600 group-hover:text-white transition-colors">
+                            <i data-lucide="monitor" class="w-8 h-8 text-blue-600"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold mb-3">Multi-Res</h3>
+                        <p class="text-slate-500 leading-relaxed">Support for every resolution from 360p to 8K Ultra HD.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Guide -->
+        <section id="how-to-download" class="py-24 bg-slate-50">
+            <div class="container max-w-4xl mx-auto px-4">
+                <h2 class="text-4xl sm:text-5xl font-black text-center mb-16 italic">Ultimate 2024 Guide</h2>
+                <div class="space-y-12">
+                    <div class="flex gap-8 items-start">
+                        <div class="w-16 h-16 rounded-full bg-blue-600 text-white flex items-center justify-center font-black text-2xl shrink-0 shadow-lg">1</div>
+                        <div>
+                            <h3 class="text-3xl font-black mb-3">Grab the Link</h3>
+                            <p class="text-slate-600 text-lg">Open YouTube and copy the URL of the playlist. It must contain <code>list=...</code> in the address bar.</p>
+                        </div>
+                    </div>
+                    <div class="flex gap-8 items-start">
+                        <div class="w-16 h-16 rounded-full bg-blue-600 text-white flex items-center justify-center font-black text-2xl shrink-0 shadow-lg">2</div>
+                        <div>
+                            <h3 class="text-3xl font-black mb-3">Initialize Engine</h3>
+                            <p class="text-slate-600 text-lg">Paste the link into our tool. Our engine will quickly analyze the content and prepare the video queue.</p>
+                        </div>
+                    </div>
+                    <div class="flex gap-8 items-start">
+                        <div class="w-16 h-16 rounded-full bg-blue-600 text-white flex items-center justify-center font-black text-2xl shrink-0 shadow-lg">3</div>
+                        <div>
+                            <h3 class="text-3xl font-black mb-3">Batch Save</h3>
+                            <p class="text-slate-600 text-lg">Hit "Download Entire Playlist" and watch as our tool secures your media files one by one.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- FAQ -->
+        <section id="faq" class="py-24 bg-white">
+            <div class="container max-w-3xl mx-auto px-4">
+                <h2 class="text-4xl font-black text-center mb-16 uppercase tracking-tight">Got Questions?</h2>
+                <div class="space-y-4">
+                    <div class="border rounded-2xl overflow-hidden">
+                        <button class="w-full p-6 text-left font-bold text-xl hover:bg-slate-50 transition-colors flex justify-between items-center faq-toggle">
+                            <span>Is there a limit on videos?</span>
+                            <i data-lucide="chevron-down"></i>
+                        </button>
+                        <div class="p-6 text-slate-600 border-t bg-slate-50 hidden faq-content">
+                            No! You can download playlists with hundreds of videos. Our batch processing handles them sequentially for maximum reliability.
+                        </div>
+                    </div>
+                    <div class="border rounded-2xl overflow-hidden">
+                        <button class="w-full p-6 text-left font-bold text-xl hover:bg-slate-50 transition-colors flex justify-between items-center faq-toggle">
+                            <span>Do I need to sign up?</span>
+                            <i data-lucide="chevron-down"></i>
+                        </button>
+                        <div class="p-6 text-slate-600 border-t bg-slate-50 hidden faq-content">
+                            Never. We value privacy. Your data stays in your browser and we never ask for your email or credentials.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact -->
+        <section id="contact" class="py-24 bg-slate-950 text-white text-center">
+            <div class="container max-w-2xl mx-auto px-4">
+                <h2 class="text-4xl font-black mb-4">Contact Support</h2>
+                <p class="text-slate-400 mb-8">Our engineers are available 24/7 to assist with technical issues.</p>
+                <div class="space-y-6 text-left">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                        <input type="text" placeholder="Name" class="bg-slate-900 border border-slate-800 rounded-2xl p-4 w-full focus:ring-2 focus:ring-blue-600 outline-none">
+                        <input type="email" placeholder="Email" class="bg-slate-900 border border-slate-800 rounded-2xl p-4 w-full focus:ring-2 focus:ring-blue-600 outline-none">
+                    </div>
+                    <textarea placeholder="Your Message" rows="5" class="bg-slate-900 border border-slate-800 rounded-2xl p-4 w-full focus:ring-2 focus:ring-blue-600 outline-none"></textarea>
+                    <button class="w-full bg-blue-600 hover:bg-blue-500 py-5 rounded-2xl font-black text-xl transition-all shadow-xl shadow-blue-600/20">Send Inquiry</button>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="bg-slate-950 text-white py-20 border-t border-slate-900">
+        <div class="container max-w-7xl mx-auto px-4 grid grid-cols-1 md:grid-cols-4 gap-16">
+            <div class="col-span-1 md:col-span-2">
+                <a href="#" class="flex items-center gap-2 font-black text-3xl mb-8 text-blue-500">
+                    <i data-lucide="download"></i>
+                    <span>YTPlaylist</span>
+                </a>
+                <p class="text-slate-500 text-lg leading-relaxed max-w-md">
+                    The world's fastest batch downloader for YouTube content. Built for reliability and 100% privacy.
+                </p>
+            </div>
+            <div>
+                <h4 class="font-black mb-8 uppercase text-slate-400">Explore</h4>
+                <ul class="space-y-4">
+                    <li><a href="index.html" class="text-slate-500 hover:text-white transition-colors">Home</a></li>
+                    <li><a href="#how-to-download" class="text-slate-500 hover:text-white transition-colors">Guide</a></li>
+                    <li><a href="#faq" class="text-slate-500 hover:text-white transition-colors">FAQ</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="font-black mb-8 uppercase text-slate-400">Legal</h4>
+                <ul class="space-y-4">
+                    <li><a href="#" class="text-slate-500 hover:text-white transition-colors">Privacy</a></li>
+                    <li><a href="#" class="text-slate-500 hover:text-white transition-colors">Terms</a></li>
+                    <li><a href="#" class="text-slate-500 hover:text-white transition-colors">DMCA</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="container max-w-7xl mx-auto px-4 mt-20 pt-8 border-t border-slate-900 text-center text-slate-600">
+            &copy; 2024 YouTube Playlist Downloader Pro. All rights reserved.
+        </div>
+    </footer>
+
+    <script src="js/app.js"></script>
+    <script>lucide.createIcons();</script>
+</body>
+</html>
